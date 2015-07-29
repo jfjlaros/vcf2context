@@ -6,3 +6,8 @@ reference sequence.
 ## Usage
 
     python vcf2context.py input.vcf reference.fa ref.fa alt.fa
+
+## Notes
+Please note that only the reference sequence is used to make the flanking
+regions. This means that if two variants are close together, you will not see
+the neighbouring variant in the flanking region.
