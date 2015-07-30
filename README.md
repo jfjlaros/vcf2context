@@ -5,7 +5,7 @@ reference sequence.
 
 ## Usage
 
-    python vcf2context.py input.vcf reference.fa ref.fa alt.fa
+    vcf2context input.vcf reference.fa ref.fa alt.fa
 
 ## Notes
 Please note that only the reference sequence is used to make the flanking

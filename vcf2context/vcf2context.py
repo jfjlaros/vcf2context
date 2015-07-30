@@ -1,19 +1,11 @@
 #!/usr/bin/env python
 
-"""
-VCF to context converter.
-
-
-The first output file contains the reference allele, the second one contains
-the variant allele.
-
-(C) 2015 Jeroen F.J. Laros <J.F.J.Laros@lumc.nl>
-"""
-
 import argparse
 
 import vcf
 from Bio import SeqIO, SeqRecord, Seq
+
+from . import usage, version
 
 
 def vcf2context(input_handle, reference_handle, output_handles, flank=9):
@@ -49,7 +41,6 @@ def main():
     """
     Command line argument parsing.
     """
-    usage = __doc__.split('\n\n\n')
     parser = argparse.ArgumentParser(description=usage[0], epilog=usage[1],
         formatter_class=argparse.RawDescriptionHelpFormatter)
 
@@ -61,6 +52,7 @@ def main():
         type=argparse.FileType('w'), nargs=2, help='output file')
     parser.add_argument('-f', dest='flank', type=int, default=9,
         help='length of the flanking region (%(type)s default=%(default)s)')
+    parser.add_argument('-v', action='version', version=version(parser.prog))
 
     try:
         arguments = parser.parse_args()
