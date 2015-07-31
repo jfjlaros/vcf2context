@@ -22,7 +22,6 @@ def vcf2context(input_handle, reference_handle, output_handles, flank=9):
     reference = dict(map(lambda x: (x.id, x.seq),
         SeqIO.parse(reference_handle, 'fasta')))
 
-    snp_id = 0
     for record in vcf.Reader(input_handle):
         if record.is_snp:
             chrom = reference[record.CHROM]
@@ -30,11 +29,11 @@ def vcf2context(input_handle, reference_handle, output_handles, flank=9):
             right_flank = chrom[record.start + 1: record.start + flank + 1]
             ref = '{}{}{}'.format(left_flank, record.REF, right_flank)
             alt = '{}{}{}'.format(left_flank, record.ALT[0], right_flank)
-            SeqIO.write(SeqRecord.SeqRecord(Seq.Seq(ref), str(snp_id), '', ''),
+            snp_id = '{}:{}'.format(record.CHROM, record.start)
+            SeqIO.write(SeqRecord.SeqRecord(Seq.Seq(ref), snp_id, '', ''),
                 output_handles[0], 'fasta')
-            SeqIO.write(SeqRecord.SeqRecord(Seq.Seq(alt), str(snp_id), '', ''),
+            SeqIO.write(SeqRecord.SeqRecord(Seq.Seq(alt), snp_id, '', ''),
                 output_handles[1], 'fasta')
-            snp_id += 1
 
 
 def main():
